@@ -1,2 +1,3 @@
 ﻿  KnapsackAlgorithm.cpp
+C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm.cpp(135,15): warning C4018: '<': signed/unsigned mismatch
   KnapsackAlgorithm.vcxproj -> C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\x64\Debug\KnapsackAlgorithm.exe

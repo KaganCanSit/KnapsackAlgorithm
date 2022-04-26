@@ -4,14 +4,15 @@
 
 
 //GLOBAL DEGISKENLER
-long long int packWeight = 0, packArraySize = 0;    //Var olan problemimiz icin (cantanin) maksimum alabilecegi agirlik ve verilerin dizi uzunluk degerini tuttugumuz global degiskenler.
+unsigned long long int packWeight = 0;	//Var olan problemimiz icin (cantanin) maksimum alabilecegi agirlik ve verilerin dizi uzunluk degerini tuttugumuz global degiskenler.
+long long int packArraySize = 0;    
 FILE* filePointer;
 
 //Dinamik dizinin rahat ve hizli bir sekilde kullanimi icin tanimladigimiz struct yapisi.
 struct dynamicArray {
-	long long int arraySize;
-	long long int indis;
-	long long int* arrayName;
+	unsigned long long int arraySize;
+	unsigned long long int indis;
+	unsigned long long int* arrayName;
 };
 typedef struct dynamicArray array;
 
@@ -20,9 +21,9 @@ array valuesArray;
 array weightsArray;
 
 //Dinamik dizi icin bellekten alan tahsisi.
-void createArray(array* d, long long int sizeVal)
+void createArray(array* d, unsigned long long int sizeVal)
 {
-	d->arrayName = (long long int*)malloc(sizeVal * sizeof(long long int));
+	d->arrayName = (unsigned long long int*)malloc(sizeVal * sizeof(unsigned long long int));
 	d->arraySize = sizeVal;
 	d->indis = 0;
 }
@@ -32,13 +33,20 @@ void expandArray(array* d)
 {
 	if (d->indis == d->arraySize) //Yine de maksimum indis degeri ile tanimli dizi genisligini karsilastiyoruz.
 	{
+		unsigned long long int *cntrl;
 		d->arraySize++;
-		d->arrayName = (long long int*)realloc(d->arrayName, sizeof(long long int) * d->arraySize);
+		cntrl = (unsigned long long int*)realloc(d->arrayName, sizeof(unsigned long long int) * d->arraySize);
+		//Bellekten alan alinamamasi durumunda uyari almasi icin duzenliyoruz.
+		if (cntrl != NULL)	
+			d->arrayName = cntrl;
+		else				
+			printf("Memory Fault!");
+
 	}
 }
 
 //Dinamik diziye bellek ekleme ve indis degerinin arttirilamasi.
-void addArray(array* d, long long int v)
+void addArray(array* d, unsigned long long int v)
 {
 	expandArray(d);
 	d->arrayName[d->indis++] = v;
@@ -55,7 +63,7 @@ void freeArray(array* d)
 //Dizi degerlerini yazdirilmasi icin kullandigimiz fonksiyon.
 void writeArray(array* d)
 {
-	long long int i;
+	unsigned long long int i;
 	for (i = 0; i < d->indis; i++)
 		printf("%lld\n", d->arrayName[i]);
 }
@@ -76,20 +84,21 @@ void menu()
 
 	switch (choise)
 	{
-	case 1:		filePointer = fopen("ks_4_0.txt", "r");		break;
-	case 2:		filePointer = fopen("ks_100_0.txt", "r");	break;
-	case 3:		filePointer = fopen("ks_10000_0.txt", "r");	break;
-	default:
-		system("cls"); //Console Ekrani Temizleme
-		printf("***************************  Incorrect Entry! Please Try Again.  ***************************\n\n");
-		menu();
+		case 1:		filePointer = fopen("ks_4_0.txt", "r");		break;
+		case 2:		filePointer = fopen("ks_100_0.txt", "r");	break;
+		case 3:		filePointer = fopen("ks_10000_0.txt", "r");	break;
+		default:
+			system("cls"); //Console Ekrani Temizleme
+			printf("***************************  Incorrect Entry! Please Try Again.  ***************************\n\n");
+			menu();
 	}
 }
 
 //Txt dosyasi icerisinde tanimli degerleri dosyadan okuyarak dinamik olarak bildirdigimiz dizi icerisinde tanimliyoruz.
 void fileItemGetArray()
 {
-	long long temp = 0, counter = 0;
+	unsigned long long int temp = 0;
+	long long int counter = 0;
 	while (fscanf(filePointer, "%lld", &temp) != EOF)
 	{
 		if (counter == 0)
@@ -114,19 +123,18 @@ void fileItemGetArray()
 }
 
 //Iki deger arasinda maksimum degerin secimi
-long long max(long long int a, long long int b) { return (a > b) ? a : b; }
+unsigned long long max(unsigned long long int a, unsigned long long int b) { return (a > b) ? a : b; }
 
-// Returns the maximum value that
-// can be put in a knapsack of capacity W
-long long int knapSack(long long int W, array* wt, array* val, long long int n)
+//Knapsack islemlerini gerceklestirdigimiz canta agirligini, cantadaki array uzunluklarini ve var olan agirlik deger, agirlik dinamik dizilerini parametre olarak alir.
+long long int knapsackAlgorithm(unsigned long long int W, array* wt, array* val, unsigned long long int n)
 {
 	long long int i=0;
-	long long w=0, dp[100001]={};
+	unsigned long long int w=0, dp[100001]={};
 	memset(dp, 0, sizeof(dp));
 
-	for (i = 1; i < n + 1; i++)
+	for(i = 1; i < n + 1; i++)
 	{
-		for (w = W; w >= 0; w--)
+		for(w = W; w > 0; w--)
 		{
 			if (wt->arrayName[i - 1] <= w)
 			{
@@ -143,7 +151,7 @@ int main(int argc, char* argv[]) {
 	menu();
 	fileItemGetArray();
 	printf("\nPackWeight: %lld, packArraySize: %lld", packWeight, packArraySize);
-	printf("\nResult = %lld", knapSack(packWeight, &weightsArray, &valuesArray, packArraySize));
+	printf("\nResult = %lld", knapsackAlgorithm(packWeight, &weightsArray, &valuesArray, packArraySize));
 
 
 	//Dinamik olarak almis oldugumuz dizileri iade ediyoruz.
