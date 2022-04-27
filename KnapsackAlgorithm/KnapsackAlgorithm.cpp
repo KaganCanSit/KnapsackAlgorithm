@@ -17,6 +17,7 @@ typedef struct dynamicArray array;
 //Kullanilacak olan dinamik array'lerin bildirimi
 array valuesArray;
 array weightsArray;
+array finalArray;
 
 //Dinamik dizi icin bellekten alan tahsisi.
 void createArray(array* d, unsigned long long int sizeVal)
@@ -125,23 +126,24 @@ unsigned long long max(unsigned __int64 a, unsigned __int64 b) { return (a > b) 
 
 //Knapsack islemlerini gerceklestirdigimiz canta agirligini, cantadaki array uzunluklarini ve var olan deger, agirlik verilerini barindiran dinamik dizilerini parametre olarak alir.
 long long int knapsackAlgorithm(unsigned __int64 W, array* wt, array* val, unsigned __int64 n)
-{									//1000001					  
-	unsigned __int64 i = 0, w = 0, dp[100001] = {};
-	memset(dp, 0, sizeof(dp)); //Dizinin tamamina sifir degerini tanimliyoruz.
+{									//!1000001 beklenen deger					  
+	unsigned __int64 i = 0, w = 0;
+	createArray(&finalArray, W + 1);
+	//memset(&finalArray, 0, sizeof(&finalArray)); //Dizinin tamamina sifir degerini tanimliyoruz.
 
 	for(i = 1; i < n + 1; i++)
-{
+	{
 		for(w = W; w > 0; w--)
 		{
 			if (wt->arrayName[i - 1] <= w)
 			{
-				dp[w] = max(dp[w], dp[w - wt->arrayName[i - 1]] + val->arrayName[i - 1]);
-				//printf("\ndp[w] Degeri: %lld \t dp[w - wt->arrayName[i - 1]] + val->arrayName[i - 1] Degeri:%lld", dp[w], dp[w - wt->arrayName[i - 1]] + val->arrayName[i - 1]);
+				addArray(&finalArray, max(finalArray.arrayName[w], finalArray.arrayName[w - wt->arrayName[i - 1]] + val->arrayName[i - 1]));
 			}
+			addArray(&finalArray, 0);
 		}
 	}
-
-	return dp[W];
+	writeArray(&finalArray);
+	return finalArray.arrayName[W];
 }
 
 int main(int argc, char* argv[]) {
