@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctime>
 
 //GLOBAL DEGISKENLER
 unsigned __int64 packWeight, packArraySize = 0;
@@ -144,12 +145,28 @@ void freeDinamicArrays()
 	freeArray(&weightsArray);
 }
 
+//Gecen islem sürenin ekrana yazdirilmasi(milisaniye)
+void timer(clock_t start, clock_t end)
+{
+	printf("\n\nOperation Time(MiliSecond): %lf\n", (double)(end - start));
+}
+
 int main(int argc, char* argv[]) {
+
+	//Islem zamanini olcebilmek icin clock_t kutuphanesi kullaniyoruz.
+	clock_t start, end;
+	
+	//Islem yapilacak dosyayi sectirme, dosyayi okuma islemleri
 	menu();
 	fileItemGetArray();
 	printf("\nPackWeight: %lld, packArraySize: %lld", packWeight, packArraySize);
+	
+	//Knapsack Algoritmasinin islenmesi
+	start = clock();
 	printf("\nResult = %lld\n", knapsackAlgorithm(packWeight, &weightsArray, &valuesArray, packArraySize));
+	end = clock();
 
+	timer(start, end);
 	freeDinamicArrays();
 	return 0;
 }
