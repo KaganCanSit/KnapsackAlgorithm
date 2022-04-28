@@ -112,9 +112,9 @@ En kötü durum ise her ikisinin de en büyük olduğu durumdur. Örneğin 25/25
 
 Kanıtlayacak olursak;
 
-O(n*W) → 25*25 → 625
+O(n*W) → 25 x 25 → 625
 
-O(n*W) → 10*30 → 300
+O(n*W) → 10 x 30 → 300
 
 ---
 # Birinci Dosya (4)
