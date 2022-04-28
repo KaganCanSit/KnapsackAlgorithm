@@ -1,10 +1,3 @@
-# KnapsackAlgorithm
-Knapsack algorithm for files with large arrays and values with dynamic space management.
-
-<aside>
-📌 Hazırlayan: Kağan Can Şit  - 202802007 - Yazılım Mühendisliği
-</aside>
-
 # •  **Knapsack Algoritması Nedir? Nasıl Çalışır?**
 
 Knapsack algoritması bir kısıtlı değere karşılık alabileceğiniz maksimum değeri bulmamızı sağlayan bir algoritmadır. 
@@ -156,3 +149,7 @@ Ders Notları
 [Knapsack-Problem/Q1-3_dynamic_programming_knapsack.c at master · ambarmodi/Knapsack-Problem (github.com)](https://github.com/ambarmodi/Knapsack-Problem/blob/master/Q1-3_dynamic_programming_knapsack.c)
 
 [c++ - Function exceeds stack size, consider moving some data to heap (C6262) - Stack Overflow](https://stackoverflow.com/questions/58477291/function-exceeds-stack-size-consider-moving-some-data-to-heap-c6262)
+
+<aside>
+📌 Hazırlayan: Kağan Can Şit
+</aside>
