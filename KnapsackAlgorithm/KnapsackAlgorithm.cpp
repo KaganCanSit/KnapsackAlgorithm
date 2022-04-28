@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 //GLOBAL DEGISKENLER
-unsigned __int64 packWeight, packArraySize = 0;    
+unsigned __int64 packWeight, packArraySize = 0;
 FILE* filePointer;
 
 //Dinamik dizinin rahat ve hizli bir sekilde kullanimi icin tanimladigimiz struct yapisi.
@@ -17,7 +16,7 @@ typedef struct dynamicArray array;
 //Kullanilacak olan dinamik array'lerin bildirimi
 array valuesArray;
 array weightsArray;
-array finalArray;
+array tableArray;
 
 //Dinamik dizi icin bellekten alan tahsisi.
 void createArray(array* d, unsigned long long int sizeVal)
@@ -32,7 +31,7 @@ void expandArray(array* d)
 {
 	if (d->indis == d->arraySize) //Yine de maksimum indis degeri ile tanimli dizi genisligini karsilastiyoruz.
 	{
-		unsigned __int64*cntrl;
+		unsigned __int64* cntrl;
 		d->arraySize++;
 
 		//Bellekten alan alinamamasi durumunda uyari almasi icin duzenliyoruz.
@@ -61,14 +60,6 @@ void freeArray(array* d)
 	d->indis = 0;
 }
 
-//Dizi degerlerini yazdirilmasi icin kullandigimiz fonksiyon.
-void writeArray(array* d)
-{
-	unsigned __int64 i;
-	for (i = 0; i < d->indis; i++)
-		printf("%lld\n", d->arrayName[i]);
-}
-
 
 /* 	Menu Fonksiyonu
 	Bu fonksiyonun amaci kullaniciya islem yapmak istedigi dosyayi sectirmek. Ve dosya ismini proje geneline hazir hale getirerek, islemleri hazirlamak.
@@ -84,13 +75,13 @@ void menu()
 
 	switch (choise)
 	{
-		case 1:		filePointer = fopen("ks_4_0.txt", "r");		break;
-		case 2:		filePointer = fopen("ks_100_0.txt", "r");	break;
-		case 3:		filePointer = fopen("ks_10000_0.txt", "r");	break;
-		default:
-			system("cls"); //Console Ekrani Temizleme
-			printf("***************************  Incorrect Entry! Please Try Again.  ***************************\n\n");
-			menu();
+	case 1:		filePointer = fopen("ks_4_0.txt", "r");		break;
+	case 2:		filePointer = fopen("ks_100_0.txt", "r");	break;
+	case 3:		filePointer = fopen("ks_10000_0.txt", "r");	break;
+	default:
+		system("cls"); //Console Ekrani Temizleme
+		printf("***************************  Incorrect Entry! Please Try Again.  ***************************\n\n");
+		menu();
 	}
 }
 
@@ -116,8 +107,6 @@ void fileItemGetArray()
 		}
 		counter++;
 	}
-	//writeArray(&valuesArray);
-	//writeArray(&weightsArray);
 	fclose(filePointer);
 }
 
@@ -126,24 +115,33 @@ unsigned long long max(unsigned __int64 a, unsigned __int64 b) { return (a > b) 
 
 //Knapsack islemlerini gerceklestirdigimiz canta agirligini, cantadaki array uzunluklarini ve var olan deger, agirlik verilerini barindiran dinamik dizilerini parametre olarak alir.
 long long int knapsackAlgorithm(unsigned __int64 W, array* wt, array* val, unsigned __int64 n)
-{									//!1000001 beklenen deger					  
+{									  
 	unsigned __int64 i = 0, w = 0;
-	createArray(&finalArray, W + 1);
-	//memset(&finalArray, 0, sizeof(&finalArray)); //Dizinin tamamina sifir degerini tanimliyoruz.
+	createArray(&tableArray, W + 1);
 
-	for(i = 1; i < n + 1; i++)
+	for (i = 0; i < W + 1; i++)
+		tableArray.arrayName[i] = 0;
+
+	for (i = 1; i < n + 1; i++)
 	{
-		for(w = W; w > 0; w--)
+		for (w = W; w > 0; w--)
 		{
 			if (wt->arrayName[i - 1] <= w)
-			{
-				addArray(&finalArray, max(finalArray.arrayName[w], finalArray.arrayName[w - wt->arrayName[i - 1]] + val->arrayName[i - 1]));
-			}
-			addArray(&finalArray, 0);
+			{	
+				tableArray.arrayName[w] = max(tableArray.arrayName[w], tableArray.arrayName[w - wt->arrayName[i - 1]] + val->arrayName[i - 1]);
+			}	
 		}
 	}
-	writeArray(&finalArray);
-	return finalArray.arrayName[W];
+
+	return tableArray.arrayName[W];
+}
+
+//Dinamik olarak almis oldugumuz dizileri iade ediyoruz.
+void freeDinamicArrays()
+{
+	freeArray(&tableArray);
+	freeArray(&valuesArray);
+	freeArray(&weightsArray);
 }
 
 int main(int argc, char* argv[]) {
@@ -152,8 +150,6 @@ int main(int argc, char* argv[]) {
 	printf("\nPackWeight: %lld, packArraySize: %lld", packWeight, packArraySize);
 	printf("\nResult = %lld\n", knapsackAlgorithm(packWeight, &weightsArray, &valuesArray, packArraySize));
 
-	//Dinamik olarak almis oldugumuz dizileri iade ediyoruz.
-	freeArray(&valuesArray);
-	freeArray(&weightsArray);
+	freeDinamicArrays();
 	return 0;
 }
