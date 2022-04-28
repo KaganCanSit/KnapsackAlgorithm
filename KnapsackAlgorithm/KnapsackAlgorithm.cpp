@@ -146,18 +146,21 @@ void freeDinamicArrays()
 }
 
 //Gecen islem sürenin ekrana yazdirilmasi(milisaniye)
-void timer(clock_t start, clock_t end)
+void timer(clock_t filereadtime, clock_t start, clock_t end)
 {
-	printf("\n\nOperation Time(MiliSecond): %lf\n", (double)(end - start));
+	printf("\nFile Read Time(MiliSecond): %lf", (double)(start - filereadtime));
+	printf("\nKnapsack Time(MiliSecond): %lf\n", (double)(end - start));
 }
 
 int main(int argc, char* argv[]) {
 
 	//Islem zamanini olcebilmek icin clock_t kutuphanesi kullaniyoruz.
-	clock_t start, end;
+	clock_t filereadtime, start, end;
+	
 	
 	//Islem yapilacak dosyayi sectirme, dosyayi okuma islemleri
 	menu();
+	filereadtime = clock();
 	fileItemGetArray();
 	printf("\nPackWeight: %lld, packArraySize: %lld", packWeight, packArraySize);
 	
@@ -166,7 +169,7 @@ int main(int argc, char* argv[]) {
 	printf("\nResult = %lld\n", knapsackAlgorithm(packWeight, &weightsArray, &valuesArray, packArraySize));
 	end = clock();
 
-	timer(start, end);
+	timer(filereadtime, start, end);
 	freeDinamicArrays();
 	return 0;
 }

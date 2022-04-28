@@ -1,5 +1,2 @@
 ﻿  KnapsackAlgorithm.cpp
-C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm.cpp(150,9): warning C4778: 'printf' : unterminated format string '%t\n'
-C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm.cpp(150,62): warning C4474: 'printf' : too many arguments passed for format string
-C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm\KnapsackAlgorithm.cpp(150,62): message : placeholders and their parameters expect 0 variadic arguments, but 1 were provided
   KnapsackAlgorithm.vcxproj -> C:\Users\kagan\Desktop\KnapsackAlgorithm\KnapsackAlgorithm\x64\Debug\KnapsackAlgorithm.exe
