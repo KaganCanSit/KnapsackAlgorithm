@@ -132,7 +132,7 @@ Ders Notları
 
 [0-1 Knapsack Problem | DP-10 - GeeksforGeeks](https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/)
 
-[Knapsack Problem solving problems on Dynamic](https://medium.com/analytics-vidhya/knapsack-problem-7f05d0900db8#:~:text=Time%20Complexity%3A%20O%20(N*,the%20capacity%20of%20the%20knapsack.)
+[Knapsack Problem solving problems on Dynamic](https://medium.com/analytics-vidhya/knapsack-problem-7f05d0900db8)
 
 [Veri Türü Aralıkları | Microsoft Docs](https://docs.microsoft.com/tr-tr/cpp/cpp/data-type-ranges?view=msvc-170)
 
